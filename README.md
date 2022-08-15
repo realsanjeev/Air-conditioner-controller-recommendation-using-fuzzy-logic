@@ -2,10 +2,6 @@
 
 
 
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
 ```markdown
 import numpy as np
 import skfuzzy as fuzz
@@ -93,5 +89,3 @@ def generateOutput(temperature_value, humidity_value):
         return 'Cool Up', re_temp
 ```
 
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
