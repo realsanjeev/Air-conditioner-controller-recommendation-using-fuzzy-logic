@@ -1,20 +1,22 @@
 ## Air-conditioner-controller-recommendation-using-fuzzy-logic
 
 
-
+Importing libraries
 ```markdown
 import numpy as np
 import skfuzzy as fuzz
 from skfuzzy import control as ctrl
-
+```
+Initialize the fuzzy variable responsible for representing input set and output set
+```markdown
 # Antecedents
 temp= ctrl.Antecedent(np.arange(0, 41), 'temperature')
 hum = ctrl.Antecedent(np.arange(0, 101), 'humidity')
 
 # Consequents
 cmd = ctrl.Consequent(np.arange(15, 27), 'command')
-
-
+```
+```markdown
 # Temperature memberships
 temp['coldest'] = fuzz.trapmf(temp.universe, [0, 4, 6, 8])
 temp['cold'] = fuzz.trapmf(temp.universe, [6, 10, 12, 16])
