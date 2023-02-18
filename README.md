@@ -10,6 +10,10 @@ Install package separately
 pip install flask
 pip install scikit-fuzzy
 ```
+## Graph of membership of temperature and humidity
+![humidity membership](https://user-images.githubusercontent.com/45820805/219877617-8b9d089c-0f3c-42e4-8aba-abf0c3c19f2e.png)
+![temperature membership](https://user-images.githubusercontent.com/45820805/219877621-a31e0f00-5baa-4335-a4e4-d0aaf3f32fde.png)
+
 Importing libraries
 ```markdown
 import numpy as np
@@ -64,26 +68,9 @@ rule2 = ctrl.Rule(
 # Control System Creation and Simulation
 cmd_ctrl = ctrl.ControlSystem([rule1, rule2])
 cmd_output = ctrl.ControlSystemSimulation(cmd_ctrl)
-# Enter values to test
-def inputValue():
-    temperature_value = float(input("Enter temperature: "))
+```
 
-    while temperature_value < 0 or temperature_value > 40:
-        try:
-            temperature_value = float(input("Please choose a number between 0 and 40 "))
-        except ValueError:
-            print('We expect you to enter a valid integer')
-
-    humidity_value = float(input("Enter humidity: "))
-
-    while humidity_value < 0 or humidity_value > 100:
-        try:
-            humidity_value = float(input("Please choose a number between 0 and 100 "))
-        except ValueError:
-            print('We expect you to enter a valid integer')
-
-    return temperature_value, humidity_value
-
+```
 def generateOutput(temperature_value, humidity_value):
     cmd_output.input['temperature'] = temperature_value
     cmd_output.input['humidity'] = humidity_value
