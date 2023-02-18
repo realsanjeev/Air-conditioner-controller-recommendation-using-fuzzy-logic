@@ -9,7 +9,6 @@ hum = ctrl.Antecedent(np.arange(0, 101), 'humidity')
 # Consequents
 cmd = ctrl.Consequent(np.arange(15, 27), 'command')
 
-
 # Temperature memberships
 temp['coldest'] = fuzz.trapmf(temp.universe, [0, 4, 6, 8])
 temp['cold'] = fuzz.trapmf(temp.universe, [6, 10, 12, 16])
@@ -51,14 +50,13 @@ cmd_output = ctrl.ControlSystemSimulation(cmd_ctrl)
 # Enter values to test
 def inputValue():
     temperature_value = float(input("Enter temperature: "))
+    humidity_value = float(input("Enter humidity: "))
 
     while temperature_value < 0 or temperature_value > 40:
         try:
             temperature_value = float(input("Please choose a number between 0 and 40 "))
         except ValueError:
             print('We expect you to enter a valid integer')
-
-    humidity_value = float(input("Enter humidity: "))
 
     while humidity_value < 0 or humidity_value > 100:
         try:
@@ -69,6 +67,13 @@ def inputValue():
     return temperature_value, humidity_value
 
 def generateOutput(temperature_value, humidity_value):
+    '''
+    Args:
+        temperature_value: float -> Temperature of surrounding in celcius
+        humidity_value: float -> Humidity % in surrounding
+    Result:
+        command
+    '''
     cmd_output.input['temperature'] = temperature_value
     cmd_output.input['humidity'] = humidity_value
 
