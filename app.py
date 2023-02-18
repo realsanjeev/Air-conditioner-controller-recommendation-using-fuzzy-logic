@@ -7,6 +7,11 @@ app = Flask(__name__)
 
 # define a route for the home page
 @app.route('/', methods=['GET', 'POST'])
+def home():
+    return render_template('index.html')
+
+# define a route for the home page
+@app.route('/output', methods=['GET', 'POST'])
 def commandControl():
     # initialize the result variable
     result = ''
@@ -14,8 +19,8 @@ def commandControl():
     # check if the request method is POST
     if request.method == 'POST':
         # retrieve the temperature and humidity values from the form
-        temperature_value = int(request.form['temp'])
-        humidity_value = int(request.form['humidity'])
+        temperature_value = float(request.form['temp'])
+        humidity_value = float(request.form['humidity'])
 
         # print the temperature and humidity values
         print(temperature_value, humidity_value)
@@ -27,11 +32,15 @@ def commandControl():
         print(temperature_value, humidity_value)
 
         # format the result message with the fuzzy and crisp outputs
-        result = f'''The system recommends to change command to {fuzzy_out} 
-                    and set temperature at {crips_out}'''
+        result = f'{fuzzy_out} '
+        command = f'Set temperature at {crips_out}'
 
     # render the index.html template with the result variable
-    return render_template('index.html', result=result)
+    return render_template('index.html',
+                            temperature=temperature_value,
+                            humidity=humidity_value,
+                            result=result,
+                            command=command)
 
 # run the app in debug mode if this is the main module
 if __name__ == '__main__':

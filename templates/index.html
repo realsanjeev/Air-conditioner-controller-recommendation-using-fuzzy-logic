@@ -7,14 +7,14 @@
 </div>
 
 <div class="container">
-  <form action="/" method="POST">
+  <form action="/output" method="POST">
     <label>Temperature of surrounding</label>
-    <input type="number" name="temp" required min="1" max="40">
+    <input type="number" name="temp" required min="1.0" max="40.0">
     <span class="form-text">
       Must be between 0 to 40 (in degree celcius).
     </span>
     <label>Humidity % in surrounding</label>
-    <input type="number" name="humidity" required min="1" max="100">
+    <input type="number" name="humidity" required min="1.0" max="100.0">
     <span class="form-text">
       Must be between 0 to 100 (in percentage).
     </span>
@@ -22,9 +22,19 @@
     <button class="btn" type="submit" value="submit">Compute command</button>
   </form>
 </div>
-
+{% if result %}
 <div class="Result">
-    <h1 align="center">{{result}}</h1>
+    <h2 align="center">
+      Temperature: {{temperature}}
+      <br />
+      Humidity percent: {{humidity}}
+    </h2>
+    <h1 align="center">
+      Rcommendation: {{result}}
+      <br />
+      Control: {{command}}
+    </h1>
 </div>
+{% endif %}
 
 {% endblock ac_controller_web %}

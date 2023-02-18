@@ -4,6 +4,12 @@ Install package from requirements.txt
 ```
 pip install -r requirements.txt
 ````
+OR
+Install package separately
+```
+pip install flask
+pip install scikit-fuzzy
+```
 Importing libraries
 ```markdown
 import numpy as np
