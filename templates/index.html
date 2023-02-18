@@ -1,48 +1,30 @@
-{% extends 'base.html' %}
+{% extends 'layout.html' %}
+
 {% block ac_controller_web %}
-  
 
-
-<div class="p-3 mb-2 bg-dark text-white">
-    <h1 class="text-center">Air-Conditioner controller Using Fuzzy Logic</h1>
+<div class="header">
+  <h1 class="text-center">Air-Conditioner controller Using Fuzzy Logic</h1>
 </div>
 
 <div class="container">
   <form action="/" method="POST">
-    <div class="row g-3 align-items-center">
-        <div class="col-auto">
-          <label class="col-form-label">Temperature of surrounding</label>
-        </div>
-        <div class="col-auto">
-          <input type="number" class="form-control" name="temp" required min="1" max="40">
-        </div>
-        <div class="col-auto">
-          <span class="form-text">
-            Must be between 0 to 40(in degree celcius).
-          </span>
-        </div>
-
-        <div class="row g-3 align-items-center">
-            <div class="col-auto">
-              <label class="col-form-label">Humidity % in surrounding</label>
-            </div>
-            <div class="col-auto">
-              <input type="number" class="form-control" name="humidity" required min="1" max="100">
-            </div>
-            <div class="col-auto">
-              <span class="form-text">
-                Must be between 0 to 100(in percentage).
-              </span>
-            </div>
-      </div>
-      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <button class="btn btn-primary" type="submit" value="submit">Compute command</button>
-      </div>
-      
+    <label>Temperature of surrounding</label>
+    <input type="number" name="temp" required min="1" max="40">
+    <span class="form-text">
+      Must be between 0 to 40 (in degree celcius).
+    </span>
+    <label>Humidity % in surrounding</label>
+    <input type="number" name="humidity" required min="1" max="100">
+    <span class="form-text">
+      Must be between 0 to 100 (in percentage).
+    </span>
+    <br/>
+    <button class="btn" type="submit" value="submit">Compute command</button>
   </form>
 </div>
 
 <div class="Result">
     <h1 align="center">{{result}}</h1>
 </div>
+
 {% endblock ac_controller_web %}

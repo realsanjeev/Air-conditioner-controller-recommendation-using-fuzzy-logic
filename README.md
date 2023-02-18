@@ -1,6 +1,9 @@
 ## Air-conditioner-controller-recommendation-using-fuzzy-logic
 
-
+Install package from requirements.txt
+```
+pip install -r requirements.txt
+````
 Importing libraries
 ```markdown
 import numpy as np
