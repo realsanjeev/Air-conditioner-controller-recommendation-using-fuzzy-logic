@@ -1,3 +1,14 @@
+"""
+This module provides fuzzy logic control using scikit-fuzzy library.
+
+The module contains the following functions:
+
+- input_value:
+    Prompt the user to enter temperature and humidity values, and validate the inputs.
+- generate_output
+    Determine whether to 'Warm up', 'No change', or 'Cool down'
+    based on the surrounding temperature and humidity.
+"""
 import numpy as np
 import skfuzzy as fuzz
 from skfuzzy import control as ctrl
@@ -47,8 +58,21 @@ rule2 = ctrl.Rule(
 # Control System Creation and Simulation
 cmd_ctrl = ctrl.ControlSystem([rule1, rule2])
 cmd_output = ctrl.ControlSystemSimulation(cmd_ctrl)
-# Enter values to test
-def inputValue():
+
+def input_value():
+    """
+    Prompt the user to enter temperature and humidity values, and validate the inputs.
+
+    Returns:
+        temperature_value: float
+            The temperature value entered by the user.
+        humidity_value: float
+            The humidity value entered by the user.
+
+    Raises:
+        ValueError:
+            If the user enters a non-numeric value or a value outside the expected range.
+    """
     temperature_value = float(input("Enter temperature: "))
     humidity_value = float(input("Enter humidity: "))
 
@@ -56,24 +80,35 @@ def inputValue():
         try:
             temperature_value = float(input("Please choose a number between 0 and 40 "))
         except ValueError:
-            print('We expect you to enter a valid integer')
+            raise ValueError('Invalid temperature value. Please enter a number between 0 and 40.')
 
     while humidity_value < 0 or humidity_value > 100:
         try:
             humidity_value = float(input("Please choose a number between 0 and 100 "))
         except ValueError:
-            print('We expect you to enter a valid integer')
+            raise ValueError('Invalid humidity value. Please enter a number between 0 and 100.')
 
     return temperature_value, humidity_value
 
-def generateOutput(temperature_value, humidity_value):
-    '''
+
+def generate_output(temperature_value, humidity_value):
+    """
+    Determine whether to 'Warm up', 'No change', or 'Cool down'
+    based on the surrounding temperature and humidity.
+
     Args:
-        temperature_value: float -> Temperature of surrounding in celcius
-        humidity_value: float -> Humidity % in surrounding
-    Result:
-        command
-    '''
+        temperature_value: float
+            The temperature in Celsius of the surrounding area.
+        humidity_value: float
+            The humidity in percentage of the surrounding area.
+
+    Returns:
+        command: str
+            The command to take, which can be one of the following:
+                - 'Warm up' if the temperature is too low and/or the humidity is too high.
+                - 'No change' if the temperature and humidity are within acceptable ranges.
+                - 'Cool down' if the temperature is too high.
+    """
     cmd_output.input['temperature'] = temperature_value
     cmd_output.input['humidity'] = humidity_value
 
@@ -81,7 +116,7 @@ def generateOutput(temperature_value, humidity_value):
     # Print output command and plots
     print("Command is defined between 15 y 26")
     re_temp = round(cmd_output.output['command'], 1)
-    if (cmd_output.output['command'] > 20):
+    if cmd_output.output['command'] > 20:
         return 'Warm up', re_temp
     elif (cmd_output.output['command'] < 20 and cmd_output.output['command'] > 18):
         return 'No change', re_temp
@@ -91,4 +126,3 @@ def generateOutput(temperature_value, humidity_value):
 # cmd.view(sim=cmd_output)
 # temp.view()
 # hum.view()
-
