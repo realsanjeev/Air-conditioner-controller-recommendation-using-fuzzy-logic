@@ -1,6 +1,6 @@
 ## Air-conditioner-controller-recommendation-using-fuzzy-logic
-
-Install package from requirements.txt
+### 1. Method 1
+Install package from `requirements.txt`
 ```
 pip install -r requirements.txt
 ````
@@ -10,18 +10,27 @@ Install package separately
 pip install flask
 pip install scikit-fuzzy
 ```
+Run the development environment
+```
+flask run
+```
+### 2. Second Method
+```
+docker build --tag python-docker .
+docker run -d -p 5000:5000 python-docker
+```
 ## Graph of membership of temperature and humidity
 ![humidity membership](https://user-images.githubusercontent.com/45820805/219877617-8b9d089c-0f3c-42e4-8aba-abf0c3c19f2e.png)
 ![temperature membership](https://user-images.githubusercontent.com/45820805/219877621-a31e0f00-5baa-4335-a4e4-d0aaf3f32fde.png)
 
 Importing libraries
-```markdown
+```python
 import numpy as np
 import skfuzzy as fuzz
 from skfuzzy import control as ctrl
 ```
 Initialize the fuzzy variable responsible for representing input set and output set
-```markdown
+```python
 # Antecedents
 temp= ctrl.Antecedent(np.arange(0, 41), 'temperature')
 hum = ctrl.Antecedent(np.arange(0, 101), 'humidity')
@@ -64,7 +73,7 @@ $
 Here, $\mu(x)$ represents the degree of membership of an input value $x$ in the fuzzy set. The function starts at 0 at $x=a$, rises linearly to 1 at $x=b$, and then falls linearly to 0 at $x=c$. The triangle membership function is symmetric around the peak value $b$.
 
 The triangle membership function is commonly used in fuzzy logic controllers to represent linguistic variables, where the peak value $b$ represents the "typical" value of the variable and the bounds $a$ and $c$ represent the range of values where the variable is considered to be "low" or "high".
-```markdown
+```python
 # Temperature memberships
 temp['coldest'] = fuzz.trapmf(temp.universe, [0, 4, 6, 8])
 temp['cold'] = fuzz.trapmf(temp.universe, [6, 10, 12, 16])

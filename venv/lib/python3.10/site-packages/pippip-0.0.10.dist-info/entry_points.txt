@@ -1,0 +1,3 @@
+[console_scripts]
+pipns = pipns.__main__:main
+

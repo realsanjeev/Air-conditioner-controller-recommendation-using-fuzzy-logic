@@ -1,0 +1,15 @@
+Metadata-Version: 2.1
+Name: pippip
+Version: 0.0.10
+Summary: UNKNOWN
+Home-page: https://github.com/nvllsvm/pipns
+Author: Andrew Rabert
+Author-email: ar@nullsum.net
+License: MIT
+Platform: UNKNOWN
+Requires-Python: >=3.7
+Requires-Dist: pipenv
+
+UNKNOWN
+
+

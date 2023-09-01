@@ -114,7 +114,7 @@ def generate_output(temperature_value, humidity_value):
 
     cmd_output.compute()
     # Print output command and plots
-    print("Command is defined between 15 y 26")
+    print("Command is defined between 15 and 26")
     re_temp = round(cmd_output.output['command'], 1)
     if cmd_output.output['command'] > 20:
         return 'Warm up', re_temp
