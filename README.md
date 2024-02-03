@@ -44,21 +44,22 @@ A trapezoidal membership function in fuzzy logic is a membership function that h
 ## Gaussian membership function
 In fuzzy logic, the Gaussian or bell-shaped membership function is a commonly used function to represent the degree of membership of a value in a fuzzy set. The Gaussian function is defined as:
 
-μ(x) = e^(-((x-c)/σ)^2)
+$μ(x) = e^{(-(\frac{x-c}{σ})^2)}$
 
-where c is the center of the curve and σ is the standard deviation which controls the width of the curve.
+where $c$ is the center of the curve and $σ$ is the standard deviation which controls the width of the curve.
 
-The Gaussian function has a bell-shaped curve with a peak at x = c and the curve decreases as the distance from the peak increases. The degree of membership of a value x in a fuzzy set can be determined by evaluating the Gaussian function at x. The resulting value represents the degree of membership of x in the fuzzy set.
+The Gaussian function has a bell-shaped curve with a peak at $x = c$ and the curve decreases as the distance from the peak increases. The degree of membership of a value $x$ in a fuzzy set can be determined by evaluating the Gaussian function at $x$. The resulting value represents the degree of membership of $x$ in the fuzzy set.
 
-The shape of the Gaussian function can be adjusted by changing the values of c and σ. A smaller value of σ results in a narrower peak, while a larger value of σ results in a broader peak. The value of c determines the location of the peak along the x-axis.
+The shape of the Gaussian function can be adjusted by changing the values of $c$ and $σ$. A smaller value of $σ$ results in a narrower peak, while a larger value of $σ$ results in a broader peak. The value of $c$ determines the location of the peak along the x-axis.
 
 The Gaussian membership function is commonly used in fuzzy control systems, where it is used to represent the degree of membership of a variable in a set. It is also used in image processing, pattern recognition, and data analysis.
 
 ## Triangle membership function
 In fuzzy logic, the triangle membership function is a type of membership function that is shaped like a triangle. It is commonly used to represent fuzzy sets where the membership values increase linearly from 0 to 1 and then decrease linearly from 1 to 0.
 
-The triangle membership function is defined by three parameters: the lower bound a, the peak value b, and the upper bound c. It is given by the following formula:
-$
+The triangle membership function is defined by three parameters: the lower bound $a$, the peak value $b$, and the upper bound $c$. It is given by the following formula:
+
+$$
 \begin{equation}
 \mu(x)=\begin{cases}
 0 & \text{if } x \leq a \newline
@@ -67,7 +68,7 @@ $
 0 & \text{if } x > c
 \end{cases}
 \end{equation}
-$
+$$
 
 
 Here, $\mu(x)$ represents the degree of membership of an input value $x$ in the fuzzy set. The function starts at 0 at $x=a$, rises linearly to 1 at $x=b$, and then falls linearly to 0 at $x=c$. The triangle membership function is symmetric around the peak value $b$.
