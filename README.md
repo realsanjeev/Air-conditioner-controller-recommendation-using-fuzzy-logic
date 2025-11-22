@@ -37,32 +37,91 @@ This is a web-based application that recommends air conditioner settings (**Warm
     docker run -d -p 5000:5000 python-docker
     ```
     Access the app at `http://127.0.0.1:5000`.
-## Graph of membership of temperature and humidity
-![humidity membership](https://user-images.githubusercontent.com/45820805/219877617-8b9d089c-0f3c-42e4-8aba-abf0c3c19f2e.png)
-![temperature membership](https://user-images.githubusercontent.com/45820805/219877621-a31e0f00-5baa-4335-a4e4-d0aaf3f32fde.png)
 
-Importing libraries
+
+## Membership Function Graphs for Temperature and Humidity
+
+The following figures illustrate the fuzzy membership functions for **humidity** and **temperature**:
+
+<figure style="text-align: center;">
+  <img src="https://user-images.githubusercontent.com/45820805/219877617-8b9d089c-0f3c-42e4-8aba-abf0c3c19f2e.png" alt="Humidity Membership">
+  <figcaption>Figure 1: Humidity Membership Functions</figcaption>
+</figure>
+
+<figure style="text-align: center;">
+  <img src="https://user-images.githubusercontent.com/45820805/219877621-a31e0f00-5baa-4335-a4e4-d0aaf3f32fde.png" alt="Temperature Membership">
+  <figcaption>Figure 2: Temperature Membership Functions</figcaption>
+</figure>
+
+
+### Importing Required Libraries
+
+We begin by importing the necessary Python libraries for fuzzy logic operations:
+
 ```python
 import numpy as np
 import skfuzzy as fuzz
 from skfuzzy import control as ctrl
 ```
-Initialize the fuzzy variable responsible for representing input set and output set
-```python
-# Antecedents
-temp= ctrl.Antecedent(np.arange(0, 41), 'temperature')
-hum = ctrl.Antecedent(np.arange(0, 101), 'humidity')
 
-# Consequents
-cmd = ctrl.Consequent(np.arange(15, 27), 'command')
+### Initializing Fuzzy Variables
+
+Next, we define the fuzzy variables that represent the **input sets** (antecedents) and the **output set** (consequent):
+
+```python
+# Input variables (Antecedents)
+temperature = ctrl.Antecedent(np.arange(0, 41, 1), 'temperature')
+humidity = ctrl.Antecedent(np.arange(0, 101, 1), 'humidity')
+
+# Output variable (Consequent)
+command = ctrl.Consequent(np.arange(15, 27, 1), 'command')
 ```
-## Trapezoidal membership function
-A trapezoidal membership function in fuzzy logic is a membership function that has four parameters: `a`, `b`, `c`, and `d`, where `a` and `d` are the lower and upper bounds of the variable's domain, and `b` and `c` are the values at which the membership function starts and stops increasing, respectively. The trapezoidal membership function looks like a trapezoid, where the left and right sides are defined by a and d, and the top is defined by `b` and `c`. The trapezoidal membership function is used to model variables that have a gradual transition from one membership grade to another, but that also have a plateau in the middle of their domain where the membership grade is high.
+
+Here:
+
+* `temperature` ranges from 0°C to 40°C
+* `humidity` ranges from 0% to 100%
+* `command` represents a control output ranging from 15 to 26 units (e.g., fan speed or setpoint)
+
+
+## Trapezoidal Membership Function
+
+A trapezoidal membership function in fuzzy logic is used to represent variables that gradually increase from 0 to 1, stay at 1 for a range, and then gradually decrease back to 0. It is defined by four parameters: `a`, `b`, `c`, and `d`:
+
+* `a`: the point where the membership starts increasing from 0
+* `b`: the point where the membership reaches 1
+* `c`: the point where the membership starts decreasing from 1
+* `d`: the point where the membership drops back to 0
+
+The function forms a trapezoid shape: sloped sides for the transitions, and a flat top where the membership is fully 1.
+
+The trapezoidal membership function ( \mu(x) ) can be expressed mathematically as:
+
+$$
+\Large
+\mu(x) =
+\begin{cases}
+0, & x \le a \ \newline
+\frac{x-a}{b-a}, & a < x \le b \ \newline
+1, & b < x \le c \               \newline
+\frac{d-x}{d-c}, & c < x \le d \ \newline
+0, & x > d
+\end{cases}
+$$
+
+
+
+This formula ensures a smooth rise from 0 to 1, a plateau at 1, and a smooth fall back to 0.
+
+
 
 ## Gaussian membership function
 In fuzzy logic, the Gaussian or bell-shaped membership function is a commonly used function to represent the degree of membership of a value in a fuzzy set. The Gaussian function is defined as:
 
-$μ(x) = e^{(-(\frac{x-c}{σ})^2)}$
+$$
+\Large \mu(x) = e^{-\left(\frac{x-c}{\sigma}\right)^2}
+$$
+
 
 where $c$ is the center of the curve and $σ$ is the standard deviation which controls the width of the curve.
 
@@ -100,63 +159,65 @@ The controller uses a set of fuzzy rules to determine the appropriate action bas
 - **Warm Up**: Triggered when the temperature is **Cold** or **Coldest**, regardless of humidity. It is also triggered if the temperature is **Warm** but humidity is **Low** (dry air feels cooler).
 - **Cool Down**: Triggered when the temperature is **Hot** or **Hottest**. It is also triggered if the temperature is **Warm** but humidity is **High** or **Optimal**, as higher humidity increases the perceived temperature (heat index).
 - **No Change**: Triggered when conditions are within the comfortable range (fuzzy output between 18 and 20).
-```python
-# Temperature memberships
-temp['coldest'] = fuzz.trapmf(temp.universe, [0, 4, 6, 8])
-temp['cold'] = fuzz.trapmf(temp.universe, [6, 10, 12, 16])
-temp['warm'] = fuzz.trapmf(temp.universe, [12, 16, 18, 24])
-temp['hot'] = fuzz.trapmf(temp.universe, [18, 22, 24, 32])
-temp['hottest'] = fuzz.trapmf(temp.universe, [24, 28, 30, 40])
 
-# Humidity memberships
-hum['low'] = fuzz.gaussmf(hum.universe, 0, 30) # 0,15
-hum['optimal'] = fuzz.gaussmf(hum.universe, 50, 15) # 50, 15
-hum['high'] = fuzz.gaussmf(hum.universe, 100, 50) # 100,15
 
-# Command memberships
-cmd['cool'] = fuzz.trimf(cmd.universe, [15, 17, 20])
-cmd['warmup'] = fuzz.trimf(cmd.universe, [18, 20, 26])
-# Rule system
-# Rules for warming up
-rule1 = ctrl.Rule(
-    (temp['coldest'] & hum['low']) |
-    (temp['coldest'] & hum['optimal']) |
-    (temp['coldest'] & hum['high']) |
-    (temp['cold'] & hum['low']) |
-    (temp['cold'] & hum['optimal']) |
-    (temp['warm'] & hum['low']), cmd['warmup'])
+    ```python
+    # Temperature memberships
+    temp['coldest'] = fuzz.trapmf(temp.universe, [0, 4, 6, 8])
+    temp['cold'] = fuzz.trapmf(temp.universe, [6, 10, 12, 16])
+    temp['warm'] = fuzz.trapmf(temp.universe, [12, 16, 18, 24])
+    temp['hot'] = fuzz.trapmf(temp.universe, [18, 22, 24, 32])
+    temp['hottest'] = fuzz.trapmf(temp.universe, [24, 28, 30, 40])
 
-# Rules for cooling up
-rule2 = ctrl.Rule(
-    (temp['warm'] & hum['optimal']) |
-    (temp['warm'] & hum['high']) |
-    (temp['hot'] & hum['optimal']) |
-    (temp['hot'] & hum['high']) |
-    (temp['hottest'] & hum['low']) |
-    (temp['hottest'] & hum['optimal']) |
-    (temp['hottest'] & hum['high']), cmd['cool'])
+    # Humidity memberships
+    hum['low'] = fuzz.gaussmf(hum.universe, 0, 30) # 0,15
+    hum['optimal'] = fuzz.gaussmf(hum.universe, 50, 15) # 50, 15
+    hum['high'] = fuzz.gaussmf(hum.universe, 100, 50) # 100,15
 
-# Control System Creation and Simulation
-cmd_ctrl = ctrl.ControlSystem([rule1, rule2])
-cmd_output = ctrl.ControlSystemSimulation(cmd_ctrl)
-```
+    # Command memberships
+    cmd['cool'] = fuzz.trimf(cmd.universe, [15, 17, 20])
+    cmd['warmup'] = fuzz.trimf(cmd.universe, [18, 20, 26])
+    # Rule system
+    # Rules for warming up
+    rule1 = ctrl.Rule(
+        (temp['coldest'] & hum['low']) |
+        (temp['coldest'] & hum['optimal']) |
+        (temp['coldest'] & hum['high']) |
+        (temp['cold'] & hum['low']) |
+        (temp['cold'] & hum['optimal']) |
+        (temp['warm'] & hum['low']), cmd['warmup'])
 
-```
-def generateOutput(temperature_value, humidity_value):
-    cmd_output.input['temperature'] = temperature_value
-    cmd_output.input['humidity'] = humidity_value
+    # Rules for cooling up
+    rule2 = ctrl.Rule(
+        (temp['warm'] & hum['optimal']) |
+        (temp['warm'] & hum['high']) |
+        (temp['hot'] & hum['optimal']) |
+        (temp['hot'] & hum['high']) |
+        (temp['hottest'] & hum['low']) |
+        (temp['hottest'] & hum['optimal']) |
+        (temp['hottest'] & hum['high']), cmd['cool'])
 
-    cmd_output.compute()
-    # Print output command and plots
-    print("Command is defined between 15 y 26")
-    re_temp = round(cmd_output.output['command'], 1)
-    if cmd_output.output['command'] > 20:
-        return 'Warm up', re_temp
-    elif 18 <= cmd_output.output['command'] <= 20:
-        return 'No change', re_temp
-    else:
-        return 'Cool Down', re_temp
-```
+    # Control System Creation and Simulation
+    cmd_ctrl = ctrl.ControlSystem([rule1, rule2])
+    cmd_output = ctrl.ControlSystemSimulation(cmd_ctrl)
+    ```
+
+    ```python
+    def generateOutput(temperature_value, humidity_value):
+        cmd_output.input['temperature'] = temperature_value
+        cmd_output.input['humidity'] = humidity_value
+
+        cmd_output.compute()
+        # Print output command and plots
+        print("Command is defined between 15 y 26")
+        re_temp = round(cmd_output.output['command'], 1)
+        if cmd_output.output['command'] > 20:
+            return 'Warm up', re_temp
+        elif 18 <= cmd_output.output['command'] <= 20:
+            return 'No change', re_temp
+        else:
+            return 'Cool Down', re_temp
+    ```
 
 ## Contributing
 
