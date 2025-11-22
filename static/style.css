@@ -1,56 +1,126 @@
-/* Style for body */
+/* Modern CSS Reset & Variables */
+:root {
+    --primary-color: #4CAF50;
+    --primary-hover: #45a049;
+    --bg-color: #f4f7f6;
+    --text-color: #333;
+    --container-bg: #ffffff;
+    --input-bg: #f9f9f9;
+    --border-radius: 8px;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
 body {
     margin: 0;
-  }  
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
 
-/* Style for header */
+/* Header */
 .header {
     background-color: #333;
     color: white;
-    padding: 15px;
+    padding: 20px;
     text-align: center;
-  }
-  
-  /* Style for container */
-  .container {
-    margin: auto;
-    width: 50%;
-  }
-  
-  /* Style for label */
-  label {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 500;
+}
+
+/* Container */
+.container {
+    margin: 40px auto;
+    width: 90%;
+    max-width: 600px;
+    background: var(--container-bg);
+    padding: 30px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+
+/* Form Elements */
+label {
     display: block;
-    margin-top: 10px;
-  }
-  
-  /* Style for input */
-  input[type=number] {
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: #f1f1f1;
-    margin-bottom: 10px;
-  }
-  
-  /* Style for form-text */
-  .form-text {
-    font-size: 12px;
-    color: #999;
-    margin-bottom: 10px;
-  }
-  
-  /* Style for button */
-  .btn {
-    background-color: #4CAF50;
+    margin-top: 15px;
+    font-weight: 600;
+    color: #555;
+}
+
+input[type=number] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    background-color: var(--input-bg);
+    margin-top: 5px;
+    margin-bottom: 5px;
+    box-sizing: border-box; /* Ensure padding doesn't affect width */
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+input[type=number]:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+.form-text {
+    display: block;
+    font-size: 0.85rem;
+    color: #888;
+    margin-bottom: 15px;
+}
+
+/* Button */
+.btn {
+    background-color: var(--primary-color);
     color: white;
-    padding: 10px 20px;
+    padding: 12px 24px;
     border: none;
-    border-radius: 5px;
+    border-radius: var(--border-radius);
     cursor: pointer;
-  }
-  
-  /* Style for button when hovering */
-  .btn:hover {
-    background-color: #45a049;
-  }
-  
+    font-size: 1rem;
+    font-weight: 600;
+    width: 100%;
+    margin-top: 10px;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+.btn:hover {
+    background-color: var(--primary-hover);
+}
+
+.btn:active {
+    transform: translateY(1px);
+}
+
+/* Result Section */
+.Result {
+    margin: 30px auto;
+    width: 90%;
+    max-width: 600px;
+    background: var(--container-bg);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    text-align: center;
+    border-left: 5px solid var(--primary-color);
+}
+
+.Result h2 {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.Result h1 {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    margin-top: 10px;
+}

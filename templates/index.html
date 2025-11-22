@@ -3,37 +3,37 @@
 {% block ac_controller_web %}
 
 <div class="header">
-  <h1 class="text-center">Air-Conditioner controller Using Fuzzy Logic</h1>
+  <h1 class="text-center">Air-Conditioner Controller</h1>
 </div>
 
 <div class="container">
   <form action="/output" method="POST">
-    <label>Temperature of surrounding</label>
-    <input type="number" name="temp" required min="1.0" max="40.0">
+    <label>Temperature of surrounding (&deg;C)</label>
+    <input type="number" name="temp" required min="0" max="40" step="0.1" placeholder="e.g. 25.5">
     <span class="form-text">
-      Must be between 0 to 40 (in degree celcius).
+      Must be between 0 and 40.
     </span>
+
     <label>Humidity % in surrounding</label>
-    <input type="number" name="humidity" required min="1.0" max="100.0">
+    <input type="number" name="humidity" required min="0" max="100" step="0.1" placeholder="e.g. 50.0">
     <span class="form-text">
-      Must be between 0 to 100 (in percentage).
+      Must be between 0 and 100.
     </span>
-    <br/>
-    <button class="btn" type="submit" value="submit">Compute command</button>
+
+    <button class="btn" type="submit" value="submit">Compute Command</button>
   </form>
 </div>
+
 {% if result %}
 <div class="Result">
-    <h2 align="center">
-      Temperature: {{temperature}}
-      <br />
-      Humidity percent: {{humidity}}
-    </h2>
-    <h1 align="center">
-      Recommendation: {{result}}
-      <br />
-      Control: {{command}}
-    </h1>
+  <h2>
+    Temperature: {{temperature}}&deg;C | Humidity: {{humidity}}%
+  </h2>
+  <h1>
+    Recommendation: {{result}}
+    <br />
+    Control: {{command}}
+  </h1>
 </div>
 {% endif %}
 

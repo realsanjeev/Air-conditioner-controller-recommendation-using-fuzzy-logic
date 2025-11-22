@@ -1,24 +1,42 @@
-## Air-conditioner-controller-recommendation-using-fuzzy-logic
-### 1. First Method 
-Install package from `requirements.txt`
-```
-pip install -r requirements.txt
-````
-OR
-Install package separately
-```
-pip install flask
-pip install scikit-fuzzy
-```
-Run the development environment
-```
-flask run
-```
-### 2. Second Method
-```
-docker build --tag python-docker .
-docker run -d -p 5000:5000 python-docker
-```
+# Air Conditioner Controller Recommendation using Fuzzy Logic
+
+## Introduction
+
+This is a web-based application that recommends air conditioner settings (**Warm Up**, **Cool Down**, or **No Change**) based on the surrounding temperature and humidity. It utilizes **Fuzzy Logic** to mimic human decision-making, providing a more natural and comfortable control strategy than simple threshold-based systems.
+
+## Getting Started
+
+### Prerequisites
+- Python<=3.11
+- Docker (optional)
+
+### Installation & Usage
+
+#### Method 1: Local Python Environment
+
+1.  **Install Dependencies**:
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+2.  **Run the Application**:
+    ```bash
+    flask run
+    ```
+    Access the app at `http://127.0.0.1:5000`.
+
+#### Method 2: Docker
+
+1.  **Build the Image**:
+    ```bash
+    docker build --tag python-docker .
+    ```
+
+2.  **Run the Container**:
+    ```bash
+    docker run -d -p 5000:5000 python-docker
+    ```
+    Access the app at `http://127.0.0.1:5000`.
 ## Graph of membership of temperature and humidity
 ![humidity membership](https://user-images.githubusercontent.com/45820805/219877617-8b9d089c-0f3c-42e4-8aba-abf0c3c19f2e.png)
 ![temperature membership](https://user-images.githubusercontent.com/45820805/219877621-a31e0f00-5baa-4335-a4e4-d0aaf3f32fde.png)
@@ -74,6 +92,14 @@ $$
 Here, $\mu(x)$ represents the degree of membership of an input value $x$ in the fuzzy set. The function starts at 0 at $x=a$, rises linearly to 1 at $x=b$, and then falls linearly to 0 at $x=c$. The triangle membership function is symmetric around the peak value $b$.
 
 The triangle membership function is commonly used in fuzzy logic controllers to represent linguistic variables, where the peak value $b$ represents the "typical" value of the variable and the bounds $a$ and $c$ represent the range of values where the variable is considered to be "low" or "high".
+
+## System Logic & Rules
+
+The controller uses a set of fuzzy rules to determine the appropriate action based on temperature and humidity inputs. The core logic is derived from how humans perceive comfort:
+
+- **Warm Up**: Triggered when the temperature is **Cold** or **Coldest**, regardless of humidity. It is also triggered if the temperature is **Warm** but humidity is **Low** (dry air feels cooler).
+- **Cool Down**: Triggered when the temperature is **Hot** or **Hottest**. It is also triggered if the temperature is **Warm** but humidity is **High** or **Optimal**, as higher humidity increases the perceived temperature (heat index).
+- **No Change**: Triggered when conditions are within the comfortable range (fuzzy output between 18 and 20).
 ```python
 # Temperature memberships
 temp['coldest'] = fuzz.trapmf(temp.universe, [0, 4, 6, 8])
@@ -124,12 +150,12 @@ def generateOutput(temperature_value, humidity_value):
     # Print output command and plots
     print("Command is defined between 15 y 26")
     re_temp = round(cmd_output.output['command'], 1)
-    if (cmd_output.output['command'] > 20):
+    if cmd_output.output['command'] > 20:
         return 'Warm up', re_temp
-    elif (cmd_output.output['command'] < 20 and cmd_output.output['command'] > 18):
+    elif 18 <= cmd_output.output['command'] <= 20:
         return 'No change', re_temp
     else:
-        return 'Cool Up', re_temp
+        return 'Cool Down', re_temp
 ```
 
 ## Contributing

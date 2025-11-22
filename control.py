@@ -118,10 +118,10 @@ def generate_output(temperature_value, humidity_value):
     re_temp = round(cmd_output.output['command'], 1)
     if cmd_output.output['command'] > 20:
         return 'Warm up', re_temp
-    elif (cmd_output.output['command'] < 20 and cmd_output.output['command'] > 18):
+    elif 18 <= cmd_output.output['command'] <= 20:
         return 'No change', re_temp
     else:
-        return 'Cool Up', re_temp
+        return 'Cool Down', re_temp
 
 # cmd.view(sim=cmd_output)
 # temp.view()

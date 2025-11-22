@@ -44,6 +44,9 @@ def command_control():
             The rendered HTML content for the output page.
     """
 
+    result = None
+    command = None
+
     # check if the request method is POST
     if request.method == 'POST':
         # retrieve the temperature and humidity values from the form
@@ -54,14 +57,14 @@ def command_control():
         print(temperature_value, humidity_value)
 
         # use the control module to generate fuzzy and crisp outputs
-        fuzzy_out, crips_out = control.generate_output(temperature_value, humidity_value)
+        fuzzy_out, crisp_out = control.generate_output(temperature_value, humidity_value)
 
         # print the temperature and humidity values again
         print(temperature_value, humidity_value)
 
         # format the result message with the fuzzy and crisp outputs
         result = f'{fuzzy_out} '
-        command = f'Set temperature at {crips_out}'
+        command = f'Set temperature at {crisp_out}'
 
     # render the index.html template with the result variable
     return render_template('index.html',
