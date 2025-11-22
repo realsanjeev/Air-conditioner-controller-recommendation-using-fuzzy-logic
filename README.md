@@ -83,6 +83,7 @@ Here:
 * `humidity` ranges from 0% to 100%
 * `command` represents a control output ranging from 15 to 26 units (e.g., fan speed or setpoint)
 
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 ## Trapezoidal Membership Function
 
@@ -95,7 +96,7 @@ A trapezoidal membership function in fuzzy logic is used to represent variables 
 
 The function forms a trapezoid shape: sloped sides for the transitions, and a flat top where the membership is fully 1.
 
-The trapezoidal membership function ( \mu(x) ) can be expressed mathematically as:
+The trapezoidal membership function $\mu(x)$ can be expressed mathematically as:
 
 $$
 \Large
@@ -110,9 +111,7 @@ $$
 $$
 
 
-
 This formula ensures a smooth rise from 0 to 1, a plateau at 1, and a smooth fall back to 0.
-
 
 
 ## Gaussian membership function
