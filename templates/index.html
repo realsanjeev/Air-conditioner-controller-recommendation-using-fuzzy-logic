@@ -26,14 +26,14 @@
 
 {% if result %}
 <div class="Result">
-  <h2>
+  <p class="result-meta">
     Temperature: {{temperature}}&deg;C | Humidity: {{humidity}}%
-  </h2>
-  <h1>
+  </p>
+  <h2 class="result-recommendation">
     Recommendation: {{result}}
     <br />
     Control: {{command}}
-  </h1>
+  </h2>
 </div>
 {% endif %}
 

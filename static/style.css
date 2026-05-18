@@ -113,14 +113,16 @@ input[type=number]:focus {
     border-left: 5px solid var(--primary-color);
 }
 
-.Result h2 {
+.Result .result-meta {
     font-size: 1.2rem;
     color: #666;
     margin-bottom: 10px;
+    font-weight: normal;
 }
 
-.Result h1 {
+.Result .result-recommendation {
     font-size: 1.5rem;
     color: var(--primary-color);
     margin-top: 10px;
+    font-weight: bold;
 }
